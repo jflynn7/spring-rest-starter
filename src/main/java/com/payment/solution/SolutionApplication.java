@@ -3,10 +3,14 @@ package com.payment.solution;
 import com.payment.solution.enums.AccountType;
 import com.payment.solution.model.Account;
 import com.payment.solution.repositories.AccountRepository;
+import com.payment.solution.services.PaymentService;
+import com.payment.solution.services.PaymentServiceImpl;
+import org.hibernate.SessionFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -60,4 +64,10 @@ public class SolutionApplication {
             }
         };
     }
+
+    @Bean
+    public PaymentService paymentService() {
+        return new PaymentServiceImpl();
+    }
+
 }
