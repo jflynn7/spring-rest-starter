@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 public class PaymentController {
 
@@ -39,11 +41,12 @@ public class PaymentController {
         return ResponseEntity.ok().body(accountRepository.findAll());
     }
 
-    public PaymentSummary makePayment(PaymentRequest paymentRequest) {
+    private PaymentSummary makePayment(PaymentRequest paymentRequest) {
         final Account paymentFrom = accountRepository.findAccountByAccountNumber(paymentRequest.getAccountNumberFrom());
         final Account paymentTo = accountRepository.findAccountByAccountNumber(paymentRequest.getAccountNumberTo());
 
         // Save the payment request first, else transient nightmares
+        paymentRequest.setPaymentDate(new Date());
         paymentRequest = paymentRequestRepository.save(paymentRequest);
 
         if(null != paymentFrom && accountHasFunds(paymentFrom, paymentRequest.getTotalAmount())) {
