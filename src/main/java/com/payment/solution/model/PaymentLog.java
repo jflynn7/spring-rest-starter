@@ -2,9 +2,16 @@ package com.payment.solution.model;
 
 import com.payment.solution.enums.PaymentStatus;
 
+import javax.persistence.*;
+
+@Entity
 public class PaymentLog {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+
+    @OneToOne
     private PaymentRequest paymentRequest;
     private PaymentStatus paymentStatus;
 
