@@ -6,10 +6,15 @@ import com.payment.solution.repositories.AccountRepository;
 import com.payment.solution.services.PaymentService;
 import com.payment.solution.services.PaymentServiceImpl;
 import org.hibernate.SessionFactory;
+import org.hibernate.ejb.HibernateEntityManagerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -20,11 +25,19 @@ import java.util.List;
 import java.util.Random;
 
 @SpringBootApplication
-public class SolutionApplication {
+@EnableAutoConfiguration
+public class SolutionApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SolutionApplication.class, args);
 	}
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(applicationClass);
+    }
+
+    private static Class<SolutionApplication> applicationClass = SolutionApplication.class;
 
     /**
      * Adds CommandLineRunner to populate accounts table on boot
@@ -69,5 +82,4 @@ public class SolutionApplication {
     public PaymentService paymentService() {
         return new PaymentServiceImpl();
     }
-
 }
